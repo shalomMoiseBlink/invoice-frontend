@@ -15,18 +15,20 @@ export const createNewToken = () => {
 }
 
 export const createIntent = (invoiceInfo) => {
-    const {name, email, amount } = invoiceInfo;
+    const {name, email, amount, currency } = invoiceInfo;
+  
     return instance.post('/intent', {
         customer_email: email,
         customer_name: name,
         amount: amount,
         transaction_type: "SALE",
         payment_type: "credit-card",
-        currency: "GBP",
+        currency: currency.code,
         return_url: "http://localhost:3000/return",
         notification_url: "http://google.com",
         card_layout: "single-line"
     }).then(({ data }) => {
+        console.log(data)
         return data
     }).catch((err) => err);
 }
@@ -35,7 +37,7 @@ export const createIntent = (invoiceInfo) => {
 export const getAllInvoices =()=>{
     return instance.get("/invoices")
     .then(({ data })=>{
-        return data.data
+        return data
     }).catch((err) => err);
 }
 

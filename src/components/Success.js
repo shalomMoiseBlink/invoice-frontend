@@ -17,7 +17,7 @@ const Success = (props) => {
         <div>{!transactionResult ? 
             props.status === "captured" ?
                 <div>
-                    Invoice {props.invoiceId} for £{props.invoice.amount} has been paid.
+                    Invoice <b>{props.invoiceId}</b> for £{props.invoice.amount} has been paid.
                     Click <button onClick={fetchTransaction}>here</button> to see the transaction details
                 </div> :
                 <div>

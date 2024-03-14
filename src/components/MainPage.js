@@ -25,6 +25,7 @@ function MainPage() {
   };
   const loadInvoices = ()=>{
     return blinkAPI.getAllInvoices().then((res)=>{
+      // setInvoiceLoading(false)
       if(!invoiceLoading){
       setInvoices(res)
       setInvoiceLoading(true)
@@ -32,18 +33,22 @@ function MainPage() {
     }).catch((err)=>{
       setError(true)
       console.log(err)
-    })
+    }) 
   }
-  loadInvoices()
+if(!invoiceLoading) loadInvoices()
   const takePayment = () => {
     setLoading(true)
    return blinkAPI.createNewToken()
    .then(()=>{ 
     blinkAPI.createIntent(selectedInvoice)
     .then((intentRes)=>{
-      setIntent(intentRes); 
-      setLoading(false);   
-      setIntentLoad(true);
+      if(intentRes.success == false) console.log( intentRes.message);
+      else {
+        setIntent(intentRes); 
+        setLoading(false);   
+        setIntentLoad(true);
+      }
+   
     }).catch((err)=>{console.log(err)})
   })
    
@@ -53,7 +58,7 @@ const makePaylink =()=>{
   return blinkAPI.createNewToken()
   .then((token)=>{ 
 const paylInkBody = {
-  payment_method: token.payment_types,
+    payment_method: token.payment_types,
     transaction_type: "SALE",
     full_name: selectedInvoice.name,
     email: selectedInvoice.email,
@@ -77,7 +82,7 @@ const paylInkBody = {
       <table >
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Invoice-ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Amount</th>
@@ -86,12 +91,12 @@ const paylInkBody = {
           </tr>
         </thead>
         <tbody>
-          {invoices.length >0? invoices.map((invoice) => (
+          {invoices.length > 0? invoices.map((invoice) => (
             <tr key={invoice.id}>
               <td>{invoice.id}</td>
               <td>{invoice.name}</td>
               <td>{invoice.email}</td>
-              <td>£{invoice.amount}</td>
+              <td>{invoice.currency.symbol}{invoice.amount}</td>
               <td>{invoice.dueDate}</td>
               <td>
                 {invoice.status === 'Unpaid' ? (
