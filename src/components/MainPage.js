@@ -3,7 +3,7 @@ import * as blinkAPI from '../blinkAPI';
 import HostedForm from './HostedForm';
 import Loading from './Loading';
 import Error from './Error';
-
+import DirectDebit from './DirectDebit';
 
 function MainPage() {
   const [token] =  useState(null)
@@ -26,6 +26,7 @@ function MainPage() {
   const loadInvoices = ()=>{
     return blinkAPI.getAllInvoices().then((res)=>{
       // setInvoiceLoading(false)
+      console.log(res)
       if(!invoiceLoading){
       setInvoices(res)
       setInvoiceLoading(true)
@@ -42,7 +43,7 @@ if(!invoiceLoading) loadInvoices()
    .then(()=>{ 
     blinkAPI.createIntent(selectedInvoice)
     .then((intentRes)=>{
-      if(intentRes.success == false) console.log( intentRes.message);
+      if(intentRes.success === false) console.log( intentRes.message);
       else {
         setIntent(intentRes); 
         setLoading(false);   
@@ -119,7 +120,8 @@ const paylInkBody = {
             <button onClick={makePaylink}>Send a PayLink</button>
             <button onClick={() => setPaymentModalOpen(false)}>Cancel</button>
           </div>
-          {intentLoading ? <HostedForm intent={intent} invoiceId={selectedInvoice.id} token={token}/>: 
+          {intentLoading ? <div> <HostedForm intent={intent} invoiceId={selectedInvoice.id} token={token}/> 
+          <DirectDebit intent={intent} invoiceId={selectedInvoice.id} token={token} /> </div>: 
           paylink ? (<div>
             <p> Paylink <a href={paylink.paylink_url}> {paylink.id}</a> has been made.</p>
           </div>): 

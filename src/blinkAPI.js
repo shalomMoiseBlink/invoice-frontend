@@ -37,7 +37,8 @@ export const createIntent = (invoiceInfo) => {
 export const getAllInvoices =()=>{
     return instance.get("/invoices")
     .then(({ data })=>{
-        return data
+        console.log(data)
+        return data.invoices
     }).catch((err) => err);
 }
 
