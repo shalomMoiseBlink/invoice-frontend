@@ -37,7 +37,8 @@ function HostedForm(props) {
               }, 100);
      function createMetaData(invoiceId){
         const merchantData =JSON.stringify({
-            invoice_id: invoiceId
+            invoice_id: invoiceId,
+            payment_type: "credit-card"
         });        
         return `<input type="hidden" name="merchant_data" value=${merchantData}></input>`
      }   

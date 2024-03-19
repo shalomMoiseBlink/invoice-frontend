@@ -29,7 +29,7 @@ if(!invoice){
                 <Loading />
             </div> :
                 <div>
-                    <Success  status={status} transaction_id={transaction_id} invoiceId={merchant_data.invoice_id} invoice={invoice}/>
+                    <Success  status={status} transaction_id={transaction_id} invoiceId={merchant_data.invoice_id} invoice={invoice} paymentType={merchant_data.payment_type}/>
                     <MainPage />
                 </div>
             }
