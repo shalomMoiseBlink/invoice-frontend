@@ -4,7 +4,7 @@ import HostedForm from './HostedForm';
 import Loading from './Loading';
 import Error from './Error';
 import DirectDebit from './DirectDebit';
-
+import * as utils from'../utils';
 function MainPage() {
   const [token] = useState(null)
   const [intent, setIntent] = useState(null)
@@ -30,10 +30,17 @@ function MainPage() {
   };
   const loadInvoices = () => {
     return blinkAPI.getAllInvoices().then((res) => {
-      // setInvoiceLoading(false)
-      // console.log(res)
-      if (!invoiceLoading) {
-        setInvoices(res)
+      const {created_at, invoices} = res;
+      if (invoices.filter((invoice) => invoice.status === "Unpaid").length <= 0 || utils.createDate() !== created_at) {
+        setError(false)
+        setInvoiceLoading(true)
+        setInvoices([]);
+        return blinkAPI.refreshInvoices()
+        .then((res)=>{
+          setInvoices(res.invoices);
+        })
+      } else if (!invoiceLoading) {
+        setInvoices(invoices)
         setInvoiceLoading(true)
       }
     }).catch((err) => {
@@ -130,7 +137,7 @@ function MainPage() {
                   )}
                 </td>
               </tr>
-            )) : (<tr>{isError ? <td>Error in Laoding the invoices</td> : <td>Loading...</td>}</tr>)}
+            )) : (<tr>{isError ? <td>Error in Loading the invoices</td> : <td>Loading...</td>}</tr>)}
           </tbody>
         </table>
       }
@@ -147,7 +154,7 @@ function MainPage() {
           {intentLoading ? <div>
             {method === "card" ?
               <HostedForm intent={intent} invoiceId={selectedInvoice.id} /> :
-              <DirectDebit intent={intent} invoiceId={selectedInvoice.id} invoice={selectedInvoice}/>
+              <DirectDebit intent={intent} invoiceId={selectedInvoice.id} invoice={selectedInvoice} />
             }
           </div> :
             paylink ? (<div>

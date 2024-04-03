@@ -42,13 +42,15 @@ function HostedForm(props) {
         });        
         return `<input type="hidden" name="merchant_data" value=${merchantData}></input>`
      }   
-        
+function checkValues(event){
+    console.log(event)
+}
     function createMarkup() {
         return {__html: props.intent.element.ccMotoElement + createMetaData(props.invoiceId)+'<input type="submit" />'};
       }
     return (
         <div>
-           <form id="paymentForm" action="http://localhost:9000/blink/process/" dangerouslySetInnerHTML={createMarkup()} method="post">
+           <form id="paymentForm" onChange={()=>checkValues(test)} action="http://localhost:9000/blink/process/" dangerouslySetInnerHTML={createMarkup()} method="post">
         </form>       
         </div>
     );

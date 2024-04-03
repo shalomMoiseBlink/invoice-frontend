@@ -8,7 +8,6 @@ const Return = () => {
     const queryParameters = new URLSearchParams(window.location.search)
     const status = queryParameters.get("status");
     const transaction_id = queryParameters.get("transaction_id");
-    // const note = queryParameters.get("note");
     const merchant_data = JSON.parse(decodeURIComponent(queryParameters.get("merchant_data")));
 
     const [invoice, setInvoice] = useState(null)

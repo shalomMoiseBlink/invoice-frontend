@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import * as BlinkAPI from '../blinkAPI';
 import Modal from './Modal';
 const Success = (props) => {
-    console.log(props)
     const [transactionResult, setTransactionResult] = useState(null)
     const fetchTransaction = () => {
         BlinkAPI.getTransactionById(props.transaction_id).then((res) => { 

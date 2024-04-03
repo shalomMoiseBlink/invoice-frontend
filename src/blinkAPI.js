@@ -37,8 +37,7 @@ export const createIntent = (invoiceInfo) => {
 export const getAllInvoices =()=>{
     return instance.get("/invoices")
     .then(({ data })=>{
-        console.log(data)
-        return data.invoices
+        return data
     }).catch((err) => err);
 }
 
@@ -58,6 +57,13 @@ export const getTransactionById = (id)=>{
 
 export const createPaylink = (body)=>{
     return instance.post(`/paylink/`, body)
+    .then(({ data })=>{
+        return data
+    }).catch((err) => err);
+}
+
+export const refreshInvoices =()=>{
+    return instance.post(`/invoices/refresh/`)
     .then(({ data })=>{
         return data
     }).catch((err) => err);
