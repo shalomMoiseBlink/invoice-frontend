@@ -7,8 +7,6 @@ import Error from './components/Error';
 
 
 function App() {
- 
-
   return (
     <div>
       <Header />

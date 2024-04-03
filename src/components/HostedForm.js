@@ -50,7 +50,7 @@ function checkValues(event){
       }
     return (
         <div>
-           <form id="paymentForm" onChange={()=>checkValues(test)} action="http://localhost:9000/blink/process/" dangerouslySetInnerHTML={createMarkup()} method="post">
+           <form id="paymentForm" onChange={()=>checkValues(test)} action={`${process.env.REACT_APP_API_URL}/blink/process/`} dangerouslySetInnerHTML={createMarkup()} method="post">
         </form>       
         </div>
     );

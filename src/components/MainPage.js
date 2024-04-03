@@ -91,15 +91,10 @@ function MainPage() {
 
     const paylInkBody = {
       payment_method: payment_types,
-      transaction_type: "SALE",
       full_name: selectedInvoice.name,
       email: selectedInvoice.email,
       transaction_unique: `Invoice ID: ${selectedInvoice.id}`,
-      is_decide_amount: false,
-      amount: selectedInvoice.amount,
-      notes: "Please pay Promptly",
-      notification_url: "https://webhook.site/28beac5e-3af7-4a7d-b7e2-3b7c14a15cc7",
-      is_notification_required: false
+      amount: selectedInvoice.amount
     }
     return blinkAPI.createPaylink(paylInkBody)
       .then((res) => {

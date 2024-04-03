@@ -4,8 +4,6 @@ const PaymentModal = (props) => {
 
     const takePaymentCC = () => {
         setLoading(true)
-        console.log(payment_types)
-        console.log(payment_types.includes("credit-card"))
         return blinkAPI.createIntent(selectedInvoice)
           .then((intentRes) => {
             if (intentRes.success === false){ 

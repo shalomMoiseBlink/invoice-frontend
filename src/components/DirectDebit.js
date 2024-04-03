@@ -19,14 +19,14 @@ const DirectDebit = (props) => {
         for (let i = 0; i <formArr.length; i++){
         directDebitArr[i] += `value='${formArr[i]}'`;
         }
-        const str =directDebitArr.join("")
+        const str = directDebitArr.join("")
 
         return { __html: str + createMetaData(props.invoiceId) + '<input type="submit" value="Charge"/>' };
     }
     return (
         <div >
 
-            <form id="ddPaymentForm" action="http://localhost:9000/blink/process/" dangerouslySetInnerHTML={createMarkup()} method="post"></form>
+            <form id="ddPaymentForm" action={`${process.env.REACT_APP_API_URL}/blink/process/`} dangerouslySetInnerHTML={createMarkup()} method="post"></form>
 
         </div>
     );
