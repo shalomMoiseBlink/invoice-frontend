@@ -108,10 +108,10 @@ function MainPage() {
       })
   }
   return (
-    <div onLoad={loadInvoices}>
+      <div class="table-responsive" onLoad={loadInvoices}>
       {isError ? <Error invoice={true} /> :
-        <table >
-          <thead>
+        <table class="table table-bordered table-striped table-hover">
+          <thead class="table-dark">
             <tr>
               <th>Invoice-ID</th>
               <th>Name</th>
@@ -131,9 +131,9 @@ function MainPage() {
                 <td>{invoice.dueDate}</td>
                 <td>
                   {invoice.status === 'Unpaid' ? (
-                    <button onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
+                    <button className='btn btn-danger' onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
                   ) : (
-                    <span>Paid</span>
+                    <span className='btn btn-success'>Paid</span>
                   )}
                 </td>
               </tr>
