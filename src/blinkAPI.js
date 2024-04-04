@@ -50,8 +50,8 @@ export const getInvoiceById = (id) => {
 
 export const getTransactionById = (id) => {
     return instance.get(`/transactions/${id}`)
-        .then(({ data }) => {
-            return data
+        .then((res) => {
+            return res.data
         }).catch((err) => err);
 }
 
@@ -78,3 +78,4 @@ export const refreshInvoices = () => {
             return data
         }).catch((err) => err);
 }
+

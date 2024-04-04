@@ -6,8 +6,7 @@ const Success = (props) => {
     const fetchTransaction = () => {
         BlinkAPI.getTransactionById(props.transaction_id).then((res) => { 
             setTransactionResult(res.data)
-            
-         })
+         });
     }
 
     const closeModal =()=>{

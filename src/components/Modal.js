@@ -2,31 +2,29 @@ import React from 'react';
 
 const Modal = (props) => {
 
-    const {transaction_id, customer_email, customer_name, payment_source, status, amount } = props.transaction;
+    const { transaction_id, customer_email, customer_name, payment_source, status, amount } = props.transaction;
     const cardLogos = {
         "Visa Credit Card": 'visa',
         "Visa Debit Card": 'visa',
         "MasterCard Credit Card": 'mastercard',
         "Maestro (UK) Card": 'maestro',
-        "American Express Card": 'amex', 
+        "American Express Card": 'amex',
         "Visa Electron Card": 'visa',
         "JCB Card": 'jcb',
         "Direct Debit": 'direct-debit'
- }
-    const getPaymentLogo = ()=>{
-         return (<img src={window.location.href.split("/return?")[0] +`/images/${cardLogos[payment_source]}.svg`} data={payment_source} className='card-logos' alt={payment_source}></img>)
     }
+
     return (
         <div className='modal'>
-       
-        <ul>
-            <li>Transaction {status}</li>
-            <li>Transaction ID: {transaction_id}</li>
-            <li>Amount: £{amount}</li>
-            <li>Payee: {customer_name}</li>
-            <li>Receipt sent to {customer_email}</li>
-            <li>Payment Method: <img src={window.location.href.split("/return?")[0] +`/images/${cardLogos[payment_source]}.svg`} data={payment_source} className='card-logos' alt={payment_source}></img></li>
-        </ul>
+
+            <ul>
+                <li>Transaction {status}</li>
+                <li>Transaction ID: {transaction_id}</li>
+                <li>Amount: £{amount}</li>
+                <li>Payee: {customer_name}</li>
+                <li>Receipt sent to {customer_email}</li>
+                <li>Payment Method: <img src={window.location.href.split("/return?")[0] + `/images/${cardLogos[payment_source]}.svg`} data={payment_source} className='card-logos' alt={payment_source}></img></li>
+            </ul>
         </div>
     );
 };

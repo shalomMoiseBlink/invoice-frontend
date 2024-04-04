@@ -6,6 +6,7 @@ import Error from './Error';
 import DirectDebit from './DirectDebit';
 import SelectedInvoice from './SelectedInvoice';
 import * as utils from '../utils';
+import { Link } from 'react-router-dom';
 function MainPage() {
   const [token] = useState(null)
   const [intent, setIntent] = useState(null)
@@ -138,7 +139,7 @@ function MainPage() {
                     {invoice.status === 'Unpaid' ? (
                       <button className='btn btn-danger' onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
                     ) : (
-                      <span className='btn btn-success'>Paid</span>
+                      <Link to={`/paidInvoice/${invoice.id}`} className='btn btn-success'><span className='btn btn-success'>Paid</span></Link> 
                     )}
                   </td>
                 </tr>
