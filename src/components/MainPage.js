@@ -4,7 +4,8 @@ import HostedForm from './HostedForm';
 import Loading from './Loading';
 import Error from './Error';
 import DirectDebit from './DirectDebit';
-import * as utils from'../utils';
+import SelectedInvoice from './SelectedInvoice';
+import * as utils from '../utils';
 function MainPage() {
   const [token] = useState(null)
   const [intent, setIntent] = useState(null)
@@ -25,20 +26,21 @@ function MainPage() {
     blinkAPI.createNewToken().then((token) => {
       setPaymentTypes(token.payment_types)
       setPaymentModalOpen(true);
+      setLoading(false);
     })
 
   };
   const loadInvoices = () => {
     return blinkAPI.getAllInvoices().then((res) => {
-      const {created_at, invoices} = res;
+      const { created_at, invoices } = res;
       if (invoices.filter((invoice) => invoice.status === "Unpaid").length <= 0 || utils.createDate() !== created_at) {
         setError(false)
         setInvoiceLoading(true)
         setInvoices([]);
         return blinkAPI.refreshInvoices()
-        .then((res)=>{
-          setInvoices(res.invoices);
-        })
+          .then((res) => {
+            setInvoices(res.invoices);
+          })
       } else if (!invoiceLoading) {
         setInvoices(invoices)
         setInvoiceLoading(true)
@@ -88,7 +90,8 @@ function MainPage() {
   };
   const makePaylink = () => {
     setLoading(true)
-
+    setMethod("Paylink")
+    setIntentLoad(false)
     const paylInkBody = {
       payment_method: payment_types,
       full_name: selectedInvoice.name,
@@ -102,49 +105,56 @@ function MainPage() {
         setLoading(false);
       })
   }
+  const closeModal = () => {
+    setPaymentModalOpen(false);
+    setMethod(null)
+    setPaylink(null)
+  }
   return (
-    <div onLoad={loadInvoices}>
+    <div className="table-responsive" onLoad={loadInvoices}>
       {isError ? <Error invoice={true} /> :
-        <table >
-          <thead>
-            <tr>
-              <th>Invoice-ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Amount</th>
-              <th>Due Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoices.length > 0 ? invoices.map((invoice) => (
-              <tr key={invoice.id}>
-                <td>{invoice.id}</td>
-                <td>{invoice.name}</td>
-                <td>{invoice.email}</td>
-                <td>{invoice.currency.symbol}{invoice.amount}</td>
-                <td>{invoice.dueDate}</td>
-                <td>
-                  {invoice.status === 'Unpaid' ? (
-                    <button onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
-                  ) : (
-                    <span>Paid</span>
-                  )}
-                </td>
+
+        !paymentModalOpen && invoices.length > 0 ?
+          <table className="table table-bordered table-striped table-hover">
+            <thead className="table-dark">
+              <tr>
+                <th>Invoice-ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Due Date</th>
+                <th>Status</th>
               </tr>
-            )) : (<tr>{isError ? <td>Error in Loading the invoices</td> : <td>Loading...</td>}</tr>)}
-          </tbody>
-        </table>
-      }
+            </thead>
+            <tbody>
+              {invoices.map((invoice) => (
+                <tr key={invoice.id}>
+                  <td>{invoice.id}</td>
+                  <td>{invoice.name}</td>
+                  <td>{invoice.email}</td>
+                  <td>{invoice.currency.symbol}{invoice.amount}</td>
+                  <td>{invoice.dueDate}</td>
+                  <td>
+                    {invoice.status === 'Unpaid' ? (
+                      <button className='btn btn-danger' onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
+                    ) : (
+                      <span className='btn btn-success'>Paid</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table> : isError ? <div>Error in Loading the invoices</div> :isLoading && <Loading />}
+
+
       {paymentModalOpen && (
         <div className="modal">
+          <SelectedInvoice invoice={selectedInvoice} />
           <div className="modal-content">
-            <h2>Take Payment</h2>
-            <p>{`Invoice ID: ${selectedInvoice.id}`}</p>
-            {payment_types.includes("credit-card") && <button onClick={takePaymentCC}>Take Payment via card</button>}
-            {payment_types.includes("direct-debit") && <button onClick={takePaymentDD}>Take payment via Direct Debit</button>}
-            <button onClick={makePaylink}>Send a PayLink</button>
-            <button onClick={() => setPaymentModalOpen(false)}>Cancel</button>
+            {payment_types.includes("credit-card") && <button className='btn paymentBtn' onClick={takePaymentCC}>Take Payment via card</button>}
+            {payment_types.includes("direct-debit") && <button className='btn paymentBtn' onClick={takePaymentDD}>Take payment via Direct Debit</button>}
+            <button className='btn paymentBtn' onClick={makePaylink}>Send a PayLink</button>
+            <button className='btn btn-danger ' onClick={closeModal}>Cancel</button>
           </div>
           {intentLoading ? <div>
             {method === "card" ?
@@ -152,8 +162,9 @@ function MainPage() {
               <DirectDebit intent={intent} invoiceId={selectedInvoice.id} invoice={selectedInvoice} />
             }
           </div> :
-            paylink ? (<div>
-              <p> Paylink <a href={paylink.paylink_url}> {paylink.id}</a> has been made.</p>
+            paylink ? (<div className="text">
+              <p > Paylink  {paylink.id}has been made and sent to <i> {selectedInvoice.email}</i></p>
+              <a href={paylink.paylink_url}><button className='btn paymentBtn'>Open Paylink</button> </a>
             </div>) :
               isLoading ? <div><Loading /></div> : <div></div>}
         </div>

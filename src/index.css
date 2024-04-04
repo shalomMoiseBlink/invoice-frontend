@@ -11,3 +11,56 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.table thead th {
+  white-space: nowrap;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.table td .btn {
+  min-width: 74px;
+}
+
+.modal {
+  display: contents;
+  /* width: 1000px; */
+  /* background-color: red; */
+}
+.modal-content{
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px; 
+}
+
+.paymentBtn:hover{
+  background-color: lightblue
+}
+
+.text{
+  text-align: center;
+  padding: 15px;
+}
+
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Set the height of the container to full viewport height */
+}
+
+.loader {
+  
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #000 #0000;
+  animation: l1 1s infinite;
+}
+@keyframes l1 {to{transform: rotate(.5turn)}}
+
+.card-logos{width: 40px}

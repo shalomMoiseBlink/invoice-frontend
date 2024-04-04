@@ -14,7 +14,7 @@ const Success = (props) => {
         setTransactionResult(null)
     }
     return (
-        <div>{!transactionResult ? 
+        <div className="text">{!transactionResult ? 
             <div>
             {props.paymentType === "credit-card" && props.status === "captured" ||
              props.paymentType === "direct-debit" && props.status === "Pending+Submission"  ?
@@ -24,11 +24,11 @@ const Success = (props) => {
                 <div>
                     Payment for invoice  {props.invoiceId} has failed, please try again.
                 </div>}
-                Click <button onClick={fetchTransaction}>here</button> to see the transaction details
+                 <button onClick={fetchTransaction} className='btn btn-success'>Click to see the transaction details</button> 
                 </div>
             : <div>
               <Modal transaction={transactionResult}/>
-              <button onClick={closeModal}>Close</button>
+              <button className='btn btn-danger' onClick={closeModal}>Close</button>
             </div>
         }
         </div>

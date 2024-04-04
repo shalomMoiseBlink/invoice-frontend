@@ -8,7 +8,7 @@ import Error from './components/Error';
 
 function App() {
   return (
-    <div>
+    <div className='container'>
       <Header />
     <BrowserRouter>
     <Routes>
