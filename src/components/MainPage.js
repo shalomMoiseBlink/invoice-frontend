@@ -53,17 +53,12 @@ function MainPage() {
   }
   if (!invoiceLoading) loadInvoices()
   const takePaymentCC = () => {
-    setLoading(true)
-    console.log(payment_types)
-    console.log(payment_types.includes("credit-card"))
-    return blinkAPI.createIntent(selectedInvoice)
+      return blinkAPI.createIntent(selectedInvoice)
       .then((intentRes) => {
         if (intentRes.success === false) console.log(intentRes.message);
         else {
           setIntent(intentRes);
           setMethod("card")
-          setLoading(false);
-
           setIntentLoad(true);
         }
 
@@ -73,7 +68,6 @@ function MainPage() {
   };
 
   const takePaymentDD = () => {
-    setLoading(true)
 
     return blinkAPI.createIntent(selectedInvoice)
       .then((intentRes) => {
@@ -81,7 +75,6 @@ function MainPage() {
         else {
           setIntent(intentRes);
           setMethod("direct debit")
-          setLoading(false);
           setIntentLoad(true);
         }
 
@@ -139,7 +132,7 @@ function MainPage() {
                     {invoice.status === 'Unpaid' ? (
                       <button className='btn btn-danger' onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
                     ) : (
-                      <Link to={`/paidInvoice/${invoice.id}`} className='btn btn-success'><span className='btn btn-success'>Paid</span></Link> 
+                      <Link to={`/paidInvoice/${invoice.id}`} className='btn btn-success'><span >Paid</span></Link> 
                     )}
                   </td>
                 </tr>
@@ -154,8 +147,8 @@ function MainPage() {
           <div className="modal-content">
             {payment_types.includes("credit-card") && <button className='btn paymentBtn' onClick={takePaymentCC}>Take Payment via card</button>}
             {payment_types.includes("direct-debit") && <button className='btn paymentBtn' onClick={takePaymentDD}>Take payment via Direct Debit</button>}
-            <button className='btn paymentBtn' onClick={makePaylink}>Send a PayLink</button>
-            <button className='btn btn-danger ' onClick={closeModal}>Cancel</button>
+            <button className='btn paymentBtn' onClick={makePaylink}>Send a payment link</button>
+            <button className='btn btn-danger ' onClick={closeModal}>Go back</button>
           </div>
           {intentLoading ? <div>
             {method === "card" ?
@@ -164,8 +157,8 @@ function MainPage() {
             }
           </div> :
             paylink ? (<div className="text">
-              <p > Paylink  {paylink.id}has been made and sent to <i> {selectedInvoice.email}</i></p>
-              <a href={paylink.paylink_url}><button className='btn paymentBtn'>Open Paylink</button> </a>
+              <p > Paylink  <i>{paylink.id}</i> has been made and sent to <i>{selectedInvoice.email}</i></p>
+              <a href={paylink.paylink_url} target="_blank"><button className='btn paymentBtn'><b>Open Paylink</b></button> </a>
             </div>) :
               isLoading ? <div><Loading /></div> : <div></div>}
         </div>

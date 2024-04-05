@@ -9,7 +9,7 @@ const Error = (props) => {
             <h2>There has been an error</h2>
             {props.invoice && <div>No invoices found.</div>}
             {message && <div>{message}</div>}
-            <Link to="/">Go to Home</Link>
+            <Link to="/" className='btn'>Go Home</Link>
         </div>
     );
 };

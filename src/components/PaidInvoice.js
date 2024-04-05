@@ -28,6 +28,7 @@ const PaidInvoice = (props) => {
         "Visa Credit Card": 'visa',
         "Visa Debit Card": 'visa',
         "MasterCard Credit Card": 'mastercard',
+        "MasterCard Debit Card": 'mastercard',
         "Maestro (UK) Card": 'maestro',
         "American Express Card": 'amex',
         "Visa Electron Card": 'visa',
@@ -41,9 +42,10 @@ const PaidInvoice = (props) => {
             {!invoice || !transaction ? <div>
                 <Loading />
             </div> : 
-                <div>
+                <div className='modal text' >
               
-    Invoice {invoice.id} for {invoice.name} was paid in full (£ {invoice.amount} by {transaction.customer_name} ) with 
+    Invoice <i>{invoice.id}</i> for <i>{invoice.name}</i> was paid in full (<i>£ {invoice.amount}</i> by <i>{transaction.customer_name}</i> ).
+    Payment Method:   
     <img src={window.location.href.split("/paidInvoice/")[0] + `/images/${cardLogos[transaction.payment_source]}.svg`} data={transaction.payment_source} className='card-logos' alt={transaction.payment_source}></img>
     
 

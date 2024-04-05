@@ -7,6 +7,7 @@ const Modal = (props) => {
         "Visa Credit Card": 'visa',
         "Visa Debit Card": 'visa',
         "MasterCard Credit Card": 'mastercard',
+        "MasterCard Debit Card": 'mastercard',
         "Maestro (UK) Card": 'maestro',
         "American Express Card": 'amex',
         "Visa Electron Card": 'visa',
@@ -15,18 +16,15 @@ const Modal = (props) => {
     }
 
     return (
-        <div className='modal'>
-
-            <ul>
-                <li>Transaction {status}</li>
-                <li>Transaction ID: {transaction_id}</li>
-                <li>Amount: £{amount}</li>
-                <li>Payee: {customer_name}</li>
-                <li>Receipt sent to {customer_email}</li>
+            <ul >
+                <li>Transaction <i>{status}</i></li>
+                <li>Transaction ID: <i>{transaction_id}</i></li>
+                <li>Amount: <i>£{amount}</i></li>
+                <li>Payee: <i>{customer_name}</i></li>
+                <li>Receipt sent to <i>{customer_email}</i></li>
                 <li>Payment Method: <img src={window.location.href.split("/return?")[0] + `/images/${cardLogos[payment_source]}.svg`} data={payment_source} className='card-logos' alt={payment_source}></img></li>
             </ul>
-        </div>
-    );
+       );
 };
 
 // 'cardTypes' => [

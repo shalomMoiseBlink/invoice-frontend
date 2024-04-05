@@ -1,8 +1,9 @@
-import React from 'react';
+import React , {useState}from 'react';
+import Loading from './Loading';
 function HostedForm(props) {
         if(document.getElementById("blinkCardGateway")){
-            document.getElementById("blinkCardGateway").remove()
-            document.getElementById("customJquery").remove()
+            // document.getElementById("blinkCardGateway").remove()
+            // document.getElementById("customJquery").remove()
         }
             const blinkCardGateway = document.createElement("script");
             blinkCardGateway.id = "blinkCardGateway";
@@ -23,7 +24,6 @@ function HostedForm(props) {
                     submitOnEnter: true,
                     nativeEvents: true
                 };
-            // console.log("test");
                 try {
                     var hf = $form.hostedForm(auto);
                 } catch (e) {
@@ -42,16 +42,25 @@ function HostedForm(props) {
         });        
         return `<input type="hidden" name="merchant_data" value=${merchantData}></input>`
      }   
-function checkValues(event){
-    console.log(event)
+
+     const [submitted,submit] = useState(false)
+const hideForm =()=>{
+    setTimeout(()=>{
+        submit(true)
+    }, 2000)
+
 }
+
     function createMarkup() {
-        return {__html: props.intent.element.ccMotoElement + createMetaData(props.invoiceId)+'<input type="submit" />'};
+        return {__html: props.intent.element.ccMotoElement + createMetaData(props.invoiceId)+`<input type="submit" />`};
+        
       }
     return (
         <div>
-           <form id="paymentForm" onChange={()=>checkValues(test)} action={`${process.env.REACT_APP_API_URL}/blink/process/`} dangerouslySetInnerHTML={createMarkup()} method="post">
-        </form>       
+            {submitted ? <Loading /> :
+           <form disabled={submitted} id="paymentForm" onSubmit={hideForm} action={`${process.env.REACT_APP_API_URL}/blink/process/`} dangerouslySetInnerHTML={createMarkup()} method="post">
+        </form>    
+}   
         </div>
     );
 }

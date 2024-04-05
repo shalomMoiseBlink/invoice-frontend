@@ -1,4 +1,5 @@
-import React from 'react';
+import React , {useState}from 'react';
+import Loading from './Loading';
 
 const DirectDebit = (props) => {
     const {invoice} = props;
@@ -11,8 +12,6 @@ const DirectDebit = (props) => {
     }
 
     function createMarkup() {
-        console.log(props.invoice);
-
         const [givenName, familyName] = invoice.name.split(" ");
         const formArr = [givenName, familyName, '', invoice.email];
         let directDebitArr= props.intent.element.ddElement.split('value=""');
@@ -23,11 +22,18 @@ const DirectDebit = (props) => {
 
         return { __html: str + createMetaData(props.invoiceId) + '<input type="submit" value="Charge"/>' };
     }
+
+    const [submitted,submit] = useState(false)
+    const hideForm =()=>{
+        setTimeout(()=>{
+            submit(true)
+        }, 2000)
+    }
     return (
         <div >
-
-            <form id="ddPaymentForm" action={`${process.env.REACT_APP_API_URL}/blink/process/`} dangerouslySetInnerHTML={createMarkup()} method="post"></form>
-
+       {submitted ? <Loading /> :
+            <form id="ddPaymentForm" onSubmit={hideForm} action={`${process.env.REACT_APP_API_URL}/blink/process/`} dangerouslySetInnerHTML={createMarkup()} method="post"></form>
+    }
         </div>
     );
 };

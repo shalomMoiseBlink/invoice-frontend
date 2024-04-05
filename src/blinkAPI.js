@@ -28,7 +28,6 @@ export const createIntent = (invoiceInfo) => {
         notification_url: `${process.env.REACT_APP_API_URL}/blink/payment-notification`,
         card_layout: "single-line"
     }).then(({ data }) => {
-        console.log(data)
         return data
     }).catch((err) => err);
 }

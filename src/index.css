@@ -27,7 +27,9 @@ code {
 .modal {
   display: contents;
   /* width: 1000px; */
-  /* background-color: red; */
+  background-color: red;
+  border: #000;
+  border-width: 5px;
 }
 .modal-content{
   display: grid;
@@ -64,3 +66,6 @@ code {
 @keyframes l1 {to{transform: rotate(.5turn)}}
 
 .card-logos{width: 40px}
+.test {
+  background-color: red;
+}

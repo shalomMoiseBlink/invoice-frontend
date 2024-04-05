@@ -13,8 +13,8 @@ const Success = (props) => {
         setTransactionResult(null)
     }
     return (
-        <div className="text">{!transactionResult ? 
-            <div>
+        <div className="modal text">{!transactionResult ? 
+            <div className='test'>
             {props.paymentType === "credit-card" && props.status === "captured" ||
              props.paymentType === "direct-debit" && props.status === "Pending+Submission"  ?
                 <div>
