@@ -61,6 +61,7 @@ export const createPaylink = (paylinkBody) => {
         is_decide_amount: false,
         notes: "Please pay Promptly",
         notification_url: `${process.env.REACT_APP_API_URL}/blink/paylink-notification`,
+        redirect_url: process.env.REACT_APP_API_URL,
         is_notification_required: false
     }
 
@@ -78,3 +79,15 @@ export const refreshInvoices = () => {
         }).catch((err) => err);
 }
 
+export const addPaylinkToInvoice = (invoiceId, paylink) => {
+    return instance.patch(`/invoices/${invoiceId}`, { paylinkDetails: paylink })
+        .then(({ data }) => {
+            return data
+        }).catch((err) => err);
+}
+
+export const getPaylinkById = (paylinkId)=>{
+    return instance.get(`/paylinks/${paylinkId}`) .then(({ data }) => {
+        return data
+    }).catch((err) => err);
+}

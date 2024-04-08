@@ -12,7 +12,8 @@ const Modal = (props) => {
         "American Express Card": 'amex',
         "Visa Electron Card": 'visa',
         "JCB Card": 'jcb',
-        "Direct Debit": 'direct-debit'
+        "Direct Debit": 'direct-debit',
+        "paylink" : "blink-logo"
     }
 
     return (

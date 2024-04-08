@@ -11,13 +11,21 @@ const PaidInvoice = (props) => {
         .then((res)=>{
             setInvoice(res)
             console.log(res)
-            return res.transaction_id
+            if (res.paylinkDetails) {
+                return {type: 'paylink', paylinkId:res.paylinkDetails.paylink_id }
+            } else {
+                return  {type: 'transactions',transactionId: res.transaction_id }
+            }
+             
         }).then((transaction)=>{
             BlinkAPI.createNewToken().then(()=>{
-                BlinkAPI.getTransactionById(transaction)
+               return transaction.type === 'transactions'? BlinkAPI.getTransactionById(transaction.transactionId)
                 .then((trasnactionRes)=>{
                     console.log(trasnactionRes.data)
                     setTransaction(trasnactionRes.data)
+                }) : BlinkAPI.getPaylinkById(transaction.paylinkId).then((payLink)=>{
+                    payLink.payment_source = "paylink";
+                    setTransaction(payLink)
                 })
             })
             
@@ -33,7 +41,8 @@ const PaidInvoice = (props) => {
         "American Express Card": 'amex',
         "Visa Electron Card": 'visa',
         "JCB Card": 'jcb',
-        "Direct Debit": 'direct-debit'
+        "Direct Debit": 'direct-debit',
+        "paylink": "blink-logo"
     }
 
     return (
@@ -42,7 +51,7 @@ const PaidInvoice = (props) => {
             {!invoice || !transaction ? <div>
                 <Loading />
             </div> : 
-                <div className='modal text' >
+                <div className='modal'>
               
     Invoice <i>{invoice.id}</i> for <i>{invoice.name}</i> was paid in full (<i>£ {invoice.amount}</i> by <i>{transaction.customer_name}</i> ).
     Payment Method:   
