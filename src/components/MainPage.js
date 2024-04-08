@@ -53,7 +53,7 @@ function MainPage() {
   }
   if (!invoiceLoading) loadInvoices()
   const takePaymentCC = () => {
-      return blinkAPI.createIntent(selectedInvoice)
+    return blinkAPI.createIntent(selectedInvoice)
       .then((intentRes) => {
         if (intentRes.success === false) console.log(intentRes.message);
         else {
@@ -95,8 +95,10 @@ function MainPage() {
     }
     return blinkAPI.createPaylink(paylInkBody)
       .then((res) => {
+
         setPaylink(res);
         setLoading(false);
+        blinkAPI.addPaylinkToInvoice(selectedInvoice.id, res)
       })
   }
   const closeModal = () => {
@@ -129,16 +131,17 @@ function MainPage() {
                   <td>{invoice.currency.symbol}{invoice.amount}</td>
                   <td>{invoice.dueDate}</td>
                   <td>
-                    {invoice.status === 'Unpaid' ? (
+                    {invoice.status === 'Unpaid' ? invoice.paylinkDetails ? (<a href={invoice.paylinkDetails.paylink_url} target="_blank"><button className='btn'>Open Paylink</button></a>) : (
                       <button className='btn btn-danger' onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
-                    ) : (
-                      <Link to={`/paidInvoice/${invoice.id}`} className='btn btn-success'><span >Paid</span></Link> 
-                    )}
+                    )
+                      : (
+                        <Link to={`/paidInvoice/${invoice.id}`} className='btn btn-success'><span >Paid</span></Link>
+                      )}
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table> : isError ? <div>Error in Loading the invoices</div> :isLoading && <Loading />}
+          </table> : isError ? <div>Error in Loading the invoices</div> : isLoading && <Loading />}
 
 
       {paymentModalOpen && (
