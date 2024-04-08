@@ -61,7 +61,7 @@ export const createPaylink = (paylinkBody) => {
         is_decide_amount: false,
         notes: "Please pay Promptly",
         notification_url: `${process.env.REACT_APP_API_URL}/blink/paylink-notification`,
-        redirect_url: process.env.REACT_APP_API_URL,
+        redirect_url: window.location.href,
         is_notification_required: false
     }
 
