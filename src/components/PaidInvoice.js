@@ -3,14 +3,13 @@ import Loading from './Loading';
 import { Link } from 'react-router-dom';
 import * as BlinkAPI from '../blinkAPI'
 const PaidInvoice = (props) => {
-    const invoiceId = window.location.href.split("/paidInvoice/")[1];
+    const invoiceId = window.location.pathname.split("/paidInvoice/")[1];
     const [invoice, setInvoice] = useState(null);
     const [transaction, setTransaction] = useState();
     if(!invoice){
         BlinkAPI.getInvoiceById(invoiceId)
         .then((res)=>{
             setInvoice(res)
-            console.log(res)
             if (res.paylinkDetails) {
                 return {type: 'paylink', paylinkId:res.paylinkDetails.paylink_id }
             } else {
@@ -21,8 +20,7 @@ const PaidInvoice = (props) => {
             BlinkAPI.createNewToken().then(()=>{
                return transaction.type === 'transactions'? BlinkAPI.getTransactionById(transaction.transactionId)
                 .then((trasnactionRes)=>{
-                    console.log(trasnactionRes.data)
-                    setTransaction(trasnactionRes.data)
+                   if (trasnactionRes.data) setTransaction(trasnactionRes.data);
                 }) : BlinkAPI.getPaylinkById(transaction.paylinkId).then((payLink)=>{
                     payLink.payment_source = "paylink";
                     setTransaction(payLink)
@@ -55,7 +53,7 @@ const PaidInvoice = (props) => {
               
     Invoice <i>{invoice.id}</i> for <i>{invoice.name}</i> was paid in full (<i>£ {invoice.amount}</i> by <i>{transaction.customer_name}</i> ).
     Payment Method:   
-    <img src={window.location.href.split("/paidInvoice/")[0] + `/images/${cardLogos[transaction.payment_source]}.svg`} data={transaction.payment_source} className='card-logos' alt={transaction.payment_source}></img>
+    <img src={window.location.origin + `/images/${cardLogos[transaction.payment_source]}.svg`} data={transaction.payment_source} className='card-logos' alt={transaction.payment_source}></img>
     
 
                 </div>

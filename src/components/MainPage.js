@@ -16,7 +16,7 @@ function MainPage() {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paylink, setPaylink] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [isError, setError] = useState(false);
   const [method, setMethod] = useState("card");
   const [payment_types, setPaymentTypes] = useState([])
@@ -107,7 +107,7 @@ function MainPage() {
     setPaylink(null)
   }
   return (
-    <div className="table-responsive" onLoad={loadInvoices}>
+    <div className="table-responsive main-page" onLoad={loadInvoices}>
       {isError ? <Error invoice={true} /> :
 
         !paymentModalOpen && invoices.length > 0 ?
