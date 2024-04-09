@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Loading from './Loading';
-import {Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as BlinkAPI from '../blinkAPI'
 const PaidInvoice = (props) => {
     const invoiceId = window.location.href.split("/paidInvoice/")[1];

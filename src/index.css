@@ -71,3 +71,22 @@ code {
 
 .card-logos{width: 40px}
  
+
+.payment-modal{
+  
+  background-color: lightcyan;
+ }
+
+
+ input[type=submit]{
+ 
+  background-color: lightblue;
+ }
+
+ input[type=submit]:hover{
+  text-decoration: none;
+  text-shadow: none;
+  color: white;
+
+  background-color: #198754;
+ }

@@ -53,7 +53,12 @@ export const getTransactionById = (id) => {
             return res.data
         }).catch((err) => err);
 }
-
+export const getIntentById = (id)=>{
+    return instance.get(`/intents/${id}`)
+        .then((res) => {
+            return res.data
+        }).catch((err) => err);
+}
 export const createPaylink = (paylinkBody) => {
     const body = {
         ...paylinkBody,
@@ -87,7 +92,7 @@ export const addPaylinkToInvoice = (invoiceId, paylink) => {
 }
 
 export const getPaylinkById = (paylinkId)=>{
-    return instance.get(`/paylinks/${paylinkId}`) .then(({ data }) => {
+   return instance.get(`/paylinks/${paylinkId}`).then(({ data }) => {
         return data
     }).catch((err) => err);
 }

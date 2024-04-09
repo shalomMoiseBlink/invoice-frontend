@@ -131,7 +131,10 @@ function MainPage() {
                   <td>{invoice.currency.symbol}{invoice.amount}</td>
                   <td>{invoice.dueDate}</td>
                   <td>
-                    {invoice.status === 'Unpaid' ? invoice.paylinkDetails ? (<a href={invoice.paylinkDetails.paylink_url} target="_blank"><button className='btn'>Open Paylink</button></a>) : (
+                    {invoice.status === 'Unpaid' ? 
+                    invoice.paylinkDetails ? 
+                    (<a href={invoice.paylinkDetails.paylink_url} target="_blank"><button className='btn'>Open Paylink</button></a>) :
+                     (
                       <button className='btn btn-danger' onClick={() => { openPaymentModal(invoice) }} disabled={paymentModalOpen}>Unpaid</button>
                     )
                       : (
@@ -159,7 +162,7 @@ function MainPage() {
               <DirectDebit intent={intent} invoiceId={selectedInvoice.id} invoice={selectedInvoice} />
             }
           </div> :
-            paylink ? (<div className="text">
+            paylink ? (<div className="text payment-modal">
               <p > Paylink  <i>{paylink.id}</i> has been made and sent to <i>{selectedInvoice.email}</i></p>
               <a href={paylink.paylink_url} target="_blank"><button className='btn paymentBtn'><b>Open Paylink</b></button> </a>
             </div>) :
