@@ -1,15 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 const queryParameters = new URLSearchParams(window.location.search)
 const message = queryParameters.get("message");
 
 const Error = (props) => {
+const reload =()=>{
+    window.location.reload()
+}
     return (
-        <div>
+        <div className='text'>
             <h2>There has been an error</h2>
             {props.invoice && <div>No invoices found.</div>}
             {message && <div>{message}</div>}
-            <Link to="/" className='btn'>Go Home</Link>
+            <button onClick={reload} className='btn btn-success'>Go Home</button>
         </div>
     );
 };

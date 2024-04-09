@@ -24,7 +24,7 @@ export const createIntent = (invoiceInfo) => {
         transaction_type: "SALE",
         payment_type: "credit-card",
         currency: currency.code,
-        return_url: `${window.location.href}return`,
+        return_url: `${window.location.origin}/return`,
         notification_url: `${process.env.REACT_APP_API_URL}/blink/payment-notification`,
         card_layout: "single-line"
     }).then(({ data }) => {
@@ -66,7 +66,7 @@ export const createPaylink = (paylinkBody) => {
         is_decide_amount: false,
         notes: "Please pay Promptly",
         notification_url: `${process.env.REACT_APP_API_URL}/blink/paylink-notification`,
-        redirect_url: window.location.href,
+        redirect_url: window.location.origin,
         is_notification_required: false
     }
 

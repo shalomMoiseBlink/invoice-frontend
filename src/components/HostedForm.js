@@ -7,8 +7,9 @@ function HostedForm(props) {
     const [intent, setIntent] = useState(null); 
     const customJquery = document.createElement("script");
     customJquery.id = "customJquery";
-    customJquery.src = `${window.location.href}/custom.js`;
+    customJquery.src = `${window.location.origin}/custom.js`;
     document.head.appendChild(customJquery);
+
     if (!intent) BlinkAPI.getIntentById(props.intent.id)
         .then((intent) => {
             setIntent(intent)

@@ -5,7 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(270deg,#d3dbff,#eff3fb 36%,#eff3fb 68%,#d8f1f5)
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -27,12 +29,13 @@ code {
 .modal {
   display: contents;
   /* width: 1000px; */
-  background: lightblue;
+  background-color: lightcyan;
+  opacity:1;
   border: green;
-  margin: 15px;
+  margin: 150px;
   border-radius: 10%;
   border-width: 5px;
-  z-index: -5; /* set higher z-index value */
+  z-index: 9999;  /* set higher z-index value */
   position: relative; /* position must be set for z-index to work */
 }
 .modal-content{

@@ -17,13 +17,13 @@ const Modal = (props) => {
     }
 
     return (
-            <ul >
+            <ul className='modal'>
                 <li>Transaction <i>{status}</i></li>
                 <li>Transaction ID: <i>{transaction_id}</i></li>
                 <li>Amount: <i>£{amount}</i></li>
                 <li>Payee: <i>{customer_name}</i></li>
                 <li>Receipt sent to <i>{customer_email}</i></li>
-                <li>Payment Method: <img src={window.location.href.split("/return?")[0] + `/images/${cardLogos[payment_source]}.svg`} data={payment_source} className='card-logos' alt={payment_source}></img></li>
+                <li>Payment Method: <img src={window.location.origin.split("/return?")[0] + `/images/${cardLogos[payment_source]}.svg`} data={payment_source} className='card-logos' alt={payment_source}></img></li>
             </ul>
        );
 };
